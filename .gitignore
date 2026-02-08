@@ -1,0 +1,18 @@
+# Dataset files (hosted on HuggingFace)
+dataset_parquet/*.parquet
+
+# Upload script (contains token)
+upload_to_hf.py
+preview_data.py
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
