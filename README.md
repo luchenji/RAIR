@@ -67,6 +67,39 @@ Each sample contains the following fields:
 | **L2** | Category Mismatch but Related | The product does not match the query category but is semantically related (e.g., searching for "toilet stool" but returning "child toilet seat") |
 | **L1** | Completely Irrelevant | The product has no relevance to the query at all |
 
+## Annotation Rules
+
+The `Rules/` directory contains the detailed annotation guidelines used for labeling query-product relevance. Each relevance level (L1–L4) has its own JSON file with structured rule definitions.
+
+```
+Rules/
+├── L1.json    # Completely Irrelevant
+├── L2.json    # Category Mismatch but Related
+├── L3.json    # Partially Relevant
+└── L4.json    # Fully Relevant
+```
+
+Each JSON file contains an array of **rule sets**, organized by demand dimensions (e.g., IP, Brand, Category, Style, etc.). Each rule set includes:
+
+| Field | Description |
+|-------|-------------|
+| `ruleSetName` | The demand dimension this rule set addresses (e.g., "IP需求", "品牌需求", "品类需求") |
+| `rules` | Array of specific rules under this dimension |
+| `rules[].summary` | Brief summary of the rule |
+| `rules[].principle` | Core annotation principle |
+| `rules[].details` | Concrete examples with detailed explanations |
+
+Below is a summary of the rule sets covered per level:
+
+| Level | Rule Sets (Demand Dimensions) |
+|-------|-------------------------------|
+| **L1** | IP, Accessory Matching, Brand, Category, Model/Spec, Shop, Special Cases |
+| **L2** | IP, Accessory Matching, Brand, Category, Audience/Demographics, Style & Attributes, Season, Specs & Dimensions, Function, Shop, Set/Single, Special Cases |
+| **L3** | Accessory Matching, Audience/Demographics, Style & Attributes, Season, Brand, Category, Specs & Dimensions, Function, Set/Single, Shop, Special Cases |
+| **L4** | IP, Accessory Matching, Audience/Demographics, Brand, Category, Style & Attributes, Season, Function, Shop, Specs & Dimensions, Set/Single, Special Cases |
+
+These rules are referenced in each sample's `rule_list` field, providing transparent annotation rationale for every labeled data point.
+
 ## Prompt Templates
 
 The dataset includes prompt templates in both Chinese and English under the `prompt_template/` directory, designed for three evaluation tasks:
