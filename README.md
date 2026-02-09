@@ -6,7 +6,6 @@ RAIR (Relevance Assessment for Image Retrieval) is a benchmark dataset for evalu
 
 The dataset is hosted on Hugging Face:
 
-
 - **Repository**: [https://huggingface.co/datasets/chenJi/RAIR](https://huggingface.co/datasets/chenJi/RAIR)
 
 ### Loading
