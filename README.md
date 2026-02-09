@@ -4,18 +4,12 @@ RAIR (Relevance Assessment for Image Retrieval) is a benchmark dataset for evalu
 
 ## Access
 
-The dataset is hosted on Hugging Face (private repository, access token required):
+The dataset is hosted on Hugging Face:
 
 - **Repository**: [https://huggingface.co/datasets/chenJi/RAIR](https://huggingface.co/datasets/chenJi/RAIR)
-- **Access Token**: Please contact the authors or request access on the HuggingFace repository page.
 
 ### Loading
 
-First, set your HuggingFace token as an environment variable:
-
-```bash
-export HF_TOKEN="your_huggingface_token_here"
-```
 
 Then load the dataset in Python:
 
@@ -23,12 +17,10 @@ Then load the dataset in Python:
 import os
 from datasets import load_dataset
 
-token = os.environ["HF_TOKEN"]
-
 # Load a specific subset
-ds = load_dataset("chenJi/RAIR", "General_Subset", token=token)
-ds = load_dataset("chenJi/RAIR", "Hard_Subset", token=token)
-ds = load_dataset("chenJi/RAIR", "Visual_Subset", token=token)
+ds = load_dataset("chenJi/RAIR", "General_Subset")
+ds = load_dataset("chenJi/RAIR", "Hard_Subset")
+ds = load_dataset("chenJi/RAIR", "Visual_Subset")
 ```
 
 ## Dataset Composition
@@ -135,8 +127,6 @@ pip install datasets transformers torch accelerate qwen-vl-utils Pillow
 ### Usage
 
 ```bash
-export HF_TOKEN="your_huggingface_token_here"
-
 python inference/infer.py \
     --subset General_Subset \
     --lang en \
