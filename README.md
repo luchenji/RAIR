@@ -33,6 +33,16 @@ The RAIR Benchmark contains a total of **48,949** annotated samples, divided int
 | **Hard_Subset** | 10,931 | 15.96 GB | Hard subset containing more challenging query-product pairs (e.g., ambiguous queries, blurred category boundaries) |
 | **Visual_Subset** | 5,895 | 8.37 GB | Visual subset where product image information is essential for accurate relevance judgment |
 
+## Data Statistics & Distributions
+
+Detailed statistics of the benchmark are provided in [docs/data_statistics.md](docs/data_statistics.md), including:
+
+- Ground-truth label distribution (L1–L4)
+- Hard Subset challenging query intent distribution (DJ / ER / SS / QA / NC / MA)
+- Industry distribution of the General Subset ([figure](docs/figures/industry_distribution.png))
+- Relevance rule framework and rule activation distribution ([figure](docs/figures/rule_framework.png))
+- Definitions of the 16 intent dimensions
+
 ## Data Schema
 
 Each sample contains the following fields:
