@@ -1,6 +1,6 @@
 # RAIR Benchmark Dataset
 
-RAIR (Relevance Assessment for Image Retrieval) is a benchmark dataset for evaluating query-product relevance in e-commerce search scenarios. The dataset contains paired data of user queries and product information (titles, images, attributes, etc.), with four-level human-annotated relevance labels (L1–L4). It also provides VQA-based image understanding results and annotation rule explanations, enabling the assessment of multimodal large language models on e-commerce search relevance judgment tasks.
+RAIR (**R**ule-**A**ware benchmark with **I**mage for **R**elevance) is a large-scale Chinese benchmark for evaluating query-product relevance in e-commerce search, derived from real-world industrial scenarios. The dataset contains paired data of user queries and product information (titles, images, attributes, etc.), with four-level human-annotated relevance labels (L1–L4). It also provides an explicit rule system that standardizes relevance adjudication into reproducible protocols, along with VQA-based image understanding results, enabling the assessment of LLMs and VLMs on e-commerce relevance judgment tasks.
 
 ## Access
 
@@ -25,13 +25,13 @@ ds = load_dataset("chenJi/RAIR", "Visual_Subset")
 
 ## Dataset Composition
 
-The RAIR Benchmark contains a total of **48,949** annotated samples, divided into three subsets:
+The RAIR Benchmark spans 14 real-world e-commerce industries and contains a total of **54,539** annotated samples, divided into three subsets:
 
-| Subset | Samples | Size | Description |
-|--------|---------|------|-------------|
-| **General_Subset** | 32,123 | 46.72 GB | General evaluation set covering diverse product categories, used to assess model's overall relevance judgment capability |
-| **Hard_Subset** | 10,931 | 15.96 GB | Hard subset containing more challenging query-product pairs (e.g., ambiguous queries, blurred category boundaries) |
-| **Visual_Subset** | 5,895 | 8.37 GB | Visual subset where product image information is essential for accurate relevance judgment |
+| Subset | Samples | Description |
+|--------|---------|-------------|
+| **General_Subset** | 37,713 | General Subset with industry-balanced sampling, used to evaluate models' fundamental relevance judgment capabilities |
+| **Hard_Subset** | 10,931 | Hard Subset targeting reasoning-heavy and knowledge-dependent cases to probe the limits of current models |
+| **Visual_Subset** | 5,895 | Visually Salient Subset for cases where visual evidence is important for reliable judgment, enabling targeted evaluation of multimodal integration |
 
 ## Data Statistics & Distributions
 
@@ -64,10 +64,12 @@ Each sample contains the following fields:
 
 | Label | Meaning | Description |
 |-------|---------|-------------|
-| **L4** | Fully Relevant | The product exactly matches the query intent in both category and attributes |
-| **L3** | Partially Relevant | The product is in the correct category but has minor attribute mismatches (e.g., searching for "long-sleeve" but returning "mid-sleeve") |
-| **L2** | Category Mismatch but Related | The product does not match the query category but is semantically related (e.g., searching for "toilet stool" but returning "child toilet seat") |
-| **L1** | Completely Irrelevant | The product has no relevance to the query at all |
+| **L4** | Perfect Match | Ideal alignment; the product completely satisfies the query intent |
+| **L3** | Partial Match | Semantic proximity without explicit conflict (e.g., *Red* vs. query "Burgundy Dress") |
+| **L2** | Explicit Mismatch | Specific attribute conflicts (e.g., *Blue* vs. query "Burgundy Dress") |
+| **L1** | Completely Inconsistent | Fundamental category errors (e.g., *Pants* vs. query "Burgundy Dress") |
+
+For binary relevance evaluation, {L1, L2} are treated as irrelevant and {L3, L4} as relevant.
 
 ## Annotation Rules
 
@@ -75,10 +77,10 @@ The `Rules/` directory contains the detailed annotation guidelines used for labe
 
 ```
 Rules/
-├── L1.json    # Completely Irrelevant
-├── L2.json    # Category Mismatch but Related
-├── L3.json    # Partially Relevant
-└── L4.json    # Fully Relevant
+├── L1.json    # Completely Inconsistent
+├── L2.json    # Explicit Mismatch
+├── L3.json    # Partial Match
+└── L4.json    # Perfect Match
 ```
 
 Each JSON file contains an array of **rule sets**, organized by demand dimensions (e.g., IP, Brand, Category, Style, etc.). Each rule set includes:
@@ -122,7 +124,7 @@ prompt_template/
 |----------|-----------------|
 | `relevance_judge` | Assess the relevance between a user query and a product, outputting a label from L1 to L4 based on category, brand, style, and other key attributes |
 | `hard_query_classify` | Classify hard query intent into one of 7 categories: Domain Jargon (DJ), Entity Relationship (ER), Solution Seeking (SS), Question Answering (QA), Negative Constraints (NC), Multi-Attribute (MA), or Other |
-| `visual_salient` | Determine whether visual (image) information is strictly necessary for making the relevance judgment, outputting 1 (yes) or 0 (no) |
+| `visual_salient` | Determine whether visual (image) information is important for making a reliable relevance judgment, outputting 1 (yes) or 0 (no) |
 
 ## Inference Demo
 
